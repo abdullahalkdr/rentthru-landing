@@ -1,9 +1,19 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>RentThru</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-GWXJG2N7L2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-GWXJG2N7L2');
+  </script>
+
   <style>
     body {
       background-color: #f1c40f;
@@ -11,11 +21,12 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      height: 100vh;
+      justify-content: flex-start;
+      min-height: 100vh;
       margin: 0;
       color: #000;
       text-align: center;
+      padding: 20px;
     }
 
     img.logo {
@@ -25,13 +36,14 @@
     }
 
     h2 {
-      font-size: 2.5rem;
+      font-size: 2rem;
       margin-bottom: 1rem;
     }
 
     p {
       font-size: 1.2rem;
       margin-bottom: 2rem;
+      max-width: 90%;
     }
 
     .buttons {
@@ -39,19 +51,21 @@
       gap: 20px;
       flex-wrap: wrap;
       justify-content: center;
+      margin-bottom: 20px;
     }
 
     .buttons a {
       text-decoration: none;
       background-color: #000;
       color: #fff;
-      padding: 15px 25px;
+      padding: 12px 20px;
       border-radius: 8px;
-      font-size: 1.2rem;
+      font-size: 1rem;
       transition: background-color 0.3s ease;
       display: flex;
       flex-direction: column;
       align-items: center;
+      min-width: 140px;
     }
 
     .buttons a:hover {
@@ -63,72 +77,48 @@
     }
 
     .store-buttons {
-      margin-top: 30px;
       display: flex;
-      gap: 20px;
+      gap: 15px;
+      margin-top: 15px;
       flex-wrap: wrap;
       justify-content: center;
     }
 
     .store-buttons img {
-      height: 60px;
+      height: 45px;
+      cursor: pointer;
     }
 
-    .content {
-      margin-top: -200px;
-      padding: 0 20px;
-    }
-
-    @media (max-width: 600px) {
-      h2 {
-        font-size: 1.8rem;
-      }
-
-      p {
-        font-size: 1rem;
-      }
-
-      .buttons a {
-        font-size: 1rem;
-        padding: 12px 20px;
-      }
-
-      .store-buttons img {
-        height: 50px;
-      }
+    @media (max-width: 480px) {
+      h2 { font-size: 1.6rem; }
+      p { font-size: 1rem; }
     }
   </style>
 </head>
 <body>
-  <img src="logo.png" alt="RentThru Logo" style="width: 600px; margin-top: 50px; margin-bottom: 0px; margin-right: -50px;" />
+  <img src="logo.png" alt="RentThru Logo" class="logo">
 
-  <div class="content">
-    <h2>تأجير كل شيء.. من مكان واحد</h2>
-    <p>التطبيق الأول في الكويت لتأجير السيارات، الشاليهات، المعدات والخدمات.</p>
+  <h2>تأجير كل شيء.. من مكان واحد</h2>
+  <p>التطبيق الأول في الكويت لتأجير السيارات، الشاليهات، المعدات والخدمات.</p>
 
-    <div class="buttons">
-      <a href="mailto:owner@rentthru.app">
-        <span dir="rtl">تواصل معنا</span>
-        <span dir="ltr">Contact Us</span>
-      </a>
-      <a href="mailto:support@rentthruapp.zohodesk.com">
-        <span dir="rtl">راسل الدعم الفني</span>
-        <span dir="ltr">Support Email</span>
-      </a>
-      <a href="https://wa.me/96555410070" target="_blank">
-        <span dir="rtl">كلمنا واتساب</span>
-        <span dir="ltr">WhatsApp Us</span>
-      </a>
-    </div>
+  <div class="buttons">
+    <a href="mailto:owner@rentthru.app">
+      <span dir="rtl">تواصل معنا</span>
+      <span dir="ltr">Contact Us</span>
+    </a>
+    <a href="mailto:support@rentthruapp.zohodesk.com">
+      <span dir="rtl">راسل الدعم الفني</span>
+      <span dir="ltr">Support Email</span>
+    </a>
+    <a href="https://wa.me/96555410070" target="_blank">
+      <span dir="rtl">كلمنا واتساب</span>
+      <span dir="ltr">WhatsApp Us</span>
+    </a>
+  </div>
 
-    <div class="store-buttons">
-      <a href="https://apps.apple.com/" target="_blank">
-        <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="Download us the App Store" />
-      </a>
-      <a href="https://play.google.com/" target="_blank">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Get us on Google Play" />
-      </a>
-    </div>
+  <div class="store-buttons">
+    <a href="https://play.google.com/store"><img src="google-play-badge.png" alt="Google Play"></a>
+    <a href="https://www.apple.com/app-store/"><img src="app-store-badge.png" alt="App Store"></a>
   </div>
 </body>
 </html>
