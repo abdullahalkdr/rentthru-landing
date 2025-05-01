@@ -1,46 +1,55 @@
 
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>RentThru</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RentThru – Coming Soon</title>
     <style>
         body {
-            background-color: #f1c40f;
-            font-family: 'Segoe UI', sans-serif;
+            background-color: #FFCC00;
+            color: #000;
+            font-family: Arial, sans-serif;
             text-align: center;
-            padding: 80px;
-            color: black;
+            padding: 100px 20px;
         }
         h1 {
-            font-size: 56px;
+            font-size: 48px;
             margin-bottom: 20px;
         }
         p {
-            font-size: 28px;
-            margin-bottom: 30px;
+            font-size: 22px;
+            margin-bottom: 40px;
+        }
+        .tagline {
+            font-size: 18px;
+            color: #333;
+        }
+        .logo {
+            font-size: 36px;
+            font-weight: bold;
         }
         .button {
-            font-size: 22px;
-            padding: 12px 28px;
-            margin: 10px;
-            border: none;
-            background-color: black;
-            color: white;
-            border-radius: 8px;
-            cursor: pointer;
+            background-color: #000;
+            color: #FFF;
+            padding: 15px 30px;
             text-decoration: none;
-        }
-        .button:hover {
-            background-color: #333;
+            font-size: 18px;
+            border-radius: 5px;
         }
     </style>
 </head>
 <body>
-    <h1>RentThru</h1>
-    <p>تأجير كل شيء.. من مكان واحد</p>
-    <p>التطبيق الأول في الكويت لتأجير السيارات، الشاليهات، المعدات والخدمات.</p>
-    <a href="mailto:support@rentthruapp.zohodesk.com?subject=مشكلة في التطبيق – يرجى المساعدة&body=مرحبًا فريق RentThru،%0D%0Aأواجه مشكلة في التطبيق وهي كالتالي:%0D%0A[يرجى كتابة تفاصيل المشكلة هنا]%0D%0A%0D%0Aنوع الجهاز:%0D%0Aنظام التشغيل (iOS / Android):%0D%0Aتاريخ ووقت حدوث المشكلة:%0D%0A%0D%0Aشكرًا لكم." class="button">راسل الدعم الفني</a>
+    <div class="logo">RentThru</div>
+    <h1>تأجير كل شيء.. من مكان واحد</h1>
+    <p class="tagline">التطبيق الأول في الكويت لتأجير السيارات، الشاليهات، المعدات والخدمات.</p>
     <a href="mailto:info@rentthru.app" class="button">تواصل معنا</a>
+
+    <br><br>
+    <button onclick="window.location.href='mailto:support@rentthruapp.zohodesk.com?subject=مشكلة%20في%20التطبيق&body=يرجى%20وصف%20المشكلة%20التي%20واجهتها%20هنا'" 
+            style="background-color: #000; color: #FFF; padding: 15px 30px; border: 2px solid #000; border-radius: 5px; font-size: 18px; cursor: pointer;">
+        راسل الدعم الفني
+    </button>
+
 </body>
 </html>
