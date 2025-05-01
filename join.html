@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>انضم كمؤجر - RentThru</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f1c40f;
+      padding: 40px 20px;
+      text-align: center;
+      color: #000;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      margin-bottom: 20px;
+    }
+
+    form {
+      max-width: 600px;
+      margin: auto;
+      background-color: #f1c40f;
+      padding: 30px;
+      border-radius: 10px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      text-align: right;
+      font-weight: bold;
+    
+    
+    }
+
+    input , textarea {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 20px;
+      border: 1px solid #f1c40f;
+      border-radius: 6px;
+      font-size: 1rem;
+      box-sizing: border-box;
+     background-color: #ffff;
+
+    }
+
+    textarea {
+      resize: vertical;
+      height: 100px;
+
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: space-between;
+      
+    }
+
+    button {
+      padding: 12px 25px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      font-weight: bold;
+      
+    }
+
+    button[type="submit"] {
+      background-color: #000;
+      color: #fff;
+    }\\ارسال
+
+    button[type="reset"] {
+      background-color: #ccc;
+      color: #000;
+    } \\ مسح 
+
+    a.back-link {
+      display: inline-block;
+      margin-top: 30px;
+      text-decoration: none;
+      color: #f1c40f;
+      font-weight: bold;
+    }
+  
+  </style>
+</head>
+<body>
+
+  <h1>انضم كمؤجر الآن</h1>
+  <form action="#" method="post" >
+    <label for="name">الاسم الكامل</label>
+   <input type="text" id="name" name="name" required >
+    <label for="address">العنوان</label>
+    <input type="text" id="address" name="address" /> 
+    <label for="email">البريد الإلكتروني</label>
+    <input type="email" id="email" name="email" placeholder="example@email.com" required
+      oninvalid="this.setCustomValidity('يرجى إدخال بريد إلكتروني صحيح')"
+      oninput="this.setCustomValidity('')" />
+    
+
+
+    <label for="phone">رقم الهاتف</label>
+    <input type="tel" id="phone" name="phone" required />
+
+    <label for="message">رسالتك</label>
+    <textarea id="message" name="message" placeholder="أخبرنا عن نشاطك أو ممتلكاتك التي ترغب بتأجيرها..." maxlength="1000" required oninput="updateCounter()"></textarea>
+    <div id="charCount" style="text-align: left; font-size: 0.9rem; color: #666;">0 / 1000</div>
+
+    <div class="buttons">
+      <button type="submit">إرسال</button>
+      <button type="reset">مسح</button>
+    </div>
+  </form>
+
+  <a href="index.html" class="back-link">العودة إلى الصفحة الرئيسية</a>
+
+
+  <script>
+    function updateCounter() {
+      const message = document.getElementById("message");
+      const charCount = document.getElementById("charCount");
+      charCount.textContent = message.value.length + " / 1000";
+    }
+  </script>
+
+
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const emailInput = document.getElementById("email");
+      const form = document.querySelector("form");
+  
+      // يمنع كتابة أو لصق مسافات في خانة الإيميل
+      emailInput.addEventListener("input", function () {
+        this.value = this.value.replace(/\s/g, ""); // يمسح أي مسافة
+      });
+  
+      // التحقق النهائي عند إرسال النموذج
+      form.addEventListener("submit", function (e) {
+        const email = emailInput.value;
+        if (/\s/.test(email)) {
+          alert("البريد الإلكتروني لا يجب أن يحتوي على مسافات.");
+          e.preventDefault(); // يمنع الإرسال
+        }
+      });
+    });
+  </script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const phoneInput = document.getElementById("phone");
+      phoneInput.addEventListener("input", function() {
+        this.value = this.value.replace(/\D/g, ""); // يمسح أي حرف غير رقمي
+      });
+    });
+  </script>
+
+  
+</body>
+</html>
