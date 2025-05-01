@@ -1,55 +1,60 @@
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RentThru – Coming Soon</title>
-    <style>
-        body {
-            background-color: #FFCC00;
-            color: #000;
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 100px 20px;
-        }
-        h1 {
-            font-size: 48px;
-            margin-bottom: 20px;
-        }
-        p {
-            font-size: 22px;
-            margin-bottom: 40px;
-        }
-        .tagline {
-            font-size: 18px;
-            color: #333;
-        }
-        .logo {
-            font-size: 36px;
-            font-weight: bold;
-        }
-        .button {
-            background-color: #000;
-            color: #FFF;
-            padding: 15px 30px;
-            text-decoration: none;
-            font-size: 18px;
-            border-radius: 5px;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>RentThru</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #f4c900;
+      font-family: Tahoma, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: black;
+    }
+    .container {
+      text-align: center;
+    }
+    h1 {
+      font-size: 48px;
+      margin-bottom: 10px;
+    }
+    h2 {
+      font-size: 36px;
+      margin-bottom: 15px;
+    }
+    p {
+      font-size: 20px;
+      margin-bottom: 25px;
+    }
+    .cta-button, .support-button {
+      background-color: black;
+      color: white;
+      padding: 10px 25px;
+      font-size: 20px;
+      border: none;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+      display: inline-block;
+      margin: 5px;
+    }
+    .cta-button:hover, .support-button:hover {
+      background-color: #333;
+    }
+  </style>
 </head>
 <body>
-    <div class="logo">RentThru</div>
-    <h1>تأجير كل شيء.. من مكان واحد</h1>
-    <p class="tagline">التطبيق الأول في الكويت لتأجير السيارات، الشاليهات، المعدات والخدمات.</p>
-    <a href="mailto:info@rentthru.app" class="button">تواصل معنا</a>
-
-    <br><br>
-    <button onclick="window.location.href='mailto:support@rentthruapp.zohodesk.com?subject=مشكلة%20في%20التطبيق&body=يرجى%20وصف%20المشكلة%20التي%20واجهتها%20هنا'" 
-            style="background-color: #fff; color: #000; padding: 12px 24px; border: 2px solid #000; border-radius: 8px; font-size: 16px; cursor: pointer;">
-        راسل الدعم الفني
-    </button>
-
+  <div class="container">
+    <h1>RentThru</h1>
+    <h2>تأجير كل شيء.. من مكان واحد</h2>
+    <p>التطبيق الأول في الكويت لتأجير السيارات، الشاليهات، المعدات والخدمات.</p>
+    <a href="mailto:info@rentthru.app" class="cta-button">تواصل معنا</a>
+    <a href="mailto:support@rentthruapp.zohodesk.com" class="support-button">راسل الدعم الفني</a>
+  </div>
 </body>
 </html>
