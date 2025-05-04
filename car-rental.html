@@ -8,7 +8,7 @@
     body {
       font-family: Arial, sans-serif;
       padding: 20px;
-      background: #f5f5f5;
+      background: #f1c40f; /* تم تغيير الخلفية */
     }
     .car-box {
       background: #fff;
@@ -78,16 +78,14 @@
 
   <div class="car-box">
     <!-- صور السيارة -->
-<!-- فقط استعرض لك الجزء اللي تم فيه تغيير الصور -->
-<div class="carousel" id="carImages">
-  <img src="IMG_7167.jpeg" alt="yaris back">
-  <img src="IMG_7166.jpeg" alt="yaris angle">
-  <img src="IMG_7165.jpeg" alt="yaris side">
-</div>
+    <div class="carousel" id="carImages">
+      <img src="IMG_7167.jpeg" alt="yaris back">
+      <img src="IMG_7166.jpeg" alt="yaris angle">
+      <img src="IMG_7165.jpeg" alt="yaris side">
+    </div>
 
     <!-- حالة السيارة -->
     <div class="status available">متوفرة <span style="font-size: 20px;">✔️</span></div>
-    <!-- بدلها إلى unavailable و❌ لو تبي تخليها غير متوفرة -->
 
     <h3>Toyota Yaris 2023</h3>
     <p>السعر: <span id="dailyRate">10</span> د.ك / اليوم</p>
@@ -156,7 +154,7 @@
 
       if (!isNaN(startDate.getTime()) && !isNaN(endDate.getTime()) && endDate >= startDate) {
         const timeDiff = endDate - startDate;
-        const days = Math.ceil(timeDiff / (1000 * 3600 * 24)) + 1; // +1 to include the start day
+        const days = Math.ceil(timeDiff / (1000 * 3600 * 24)) + 1;
         const total = days * rate;
         document.getElementById('totalPrice').textContent = `إجمالي الإيجار: ${total} د.ك (${days} يوم)`;
       } else {
