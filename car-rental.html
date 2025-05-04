@@ -184,7 +184,7 @@
       const popup = document.getElementById('discountPopup');
 
       badge.style.display = 'none';
-      popup.style.display = 'none';
+      setTimeout(() => { popup.style.display = 'block'; }, 300);
 
       if (!isNaN(startDate.getTime()) && !isNaN(endDate.getTime()) && endDate >= startDate) {
         const timeDiff = endDate - startDate;
