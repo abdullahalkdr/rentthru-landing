@@ -2,37 +2,109 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <title>تأجير السيارات - Rentthru</title>
+  <title>تأجير سيارة - Rentthru</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    body { font-family: Arial, sans-serif; padding: 20px; background: #f5f5f5; }
-    .car-box { background: #fff; padding: 20px; border-radius: 10px; margin-bottom: 20px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-    .car-box img { width: 100%; border-radius: 10px; }
-    .hidden { display: none; }
-    .terms-box { background: #eef; padding: 15px; margin-top: 20px; border-radius: 8px; }
-    .button { background-color: #000; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; }
-    .button:disabled { background-color: #888; cursor: not-allowed; }
-    a { color: #0056b3; text-decoration: underline; }
-    input[type="checkbox"] { margin-left: 5px; }
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    .car-box {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .carousel {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .carousel img {
+      width: 100%;
+      max-width: 300px;
+      height: auto;
+      border-radius: 10px;
+      scroll-snap-align: start;
+    }
+    .status {
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+    .available {
+      color: green;
+    }
+    .unavailable {
+      color: red;
+    }
+    .terms-box {
+      background: #eef;
+      padding: 15px;
+      margin-top: 20px;
+      border-radius: 8px;
+    }
+    .button {
+      background-color: #000;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .button:disabled {
+      background-color: #888;
+      cursor: not-allowed;
+    }
+    a {
+      color: #0056b3;
+      text-decoration: underline;
+    }
+    input[type="checkbox"] {
+      margin-left: 5px;
+    }
+    .price-summary {
+      font-weight: bold;
+      margin-top: 10px;
+    }
   </style>
 </head>
 <body>
 
-  <h2>قسم تأجير السيارات</h2>
+  <h2>تأجير سيارة</h2>
 
   <div class="car-box">
-    <img src="https://via.placeholder.com/800x400?text=Toyota+Yaris+2023" alt="Toyota Yaris">
+    <!-- صور السيارة -->
+    <div class="carousel" id="carImages">
+      <img src="https://via.placeholder.com/300x200?text=Yaris+1" alt="car">
+      <img src="https://via.placeholder.com/300x200?text=Yaris+2" alt="car">
+      <img src="https://via.placeholder.com/300x200?text=Yaris+3" alt="car">
+      <img src="https://via.placeholder.com/300x200?text=Yaris+4" alt="car">
+      <img src="https://via.placeholder.com/300x200?text=Yaris+5" alt="car">
+    </div>
+
+    <!-- حالة السيارة -->
+    <div class="status available">متوفرة <span style="font-size: 20px;">✔️</span></div>
+    <!-- بدلها إلى unavailable و❌ لو تبي تخليها غير متوفرة -->
+
     <h3>Toyota Yaris 2023</h3>
-    <p>السعر: 10 د.ك / اليوم</p>
+    <p>السعر: <span id="dailyRate">10</span> د.ك / اليوم</p>
     <p>قير أوتوماتيك - 5 ركاب - مكيف - تأمين شامل</p>
 
     <label>تاريخ البداية:
-      <input type="date" id="startDate">
+      <input type="date" id="startDate" onchange="calculateTotal()">
     </label>
     <br><br>
     <label>تاريخ النهاية:
-      <input type="date" id="endDate">
+      <input type="date" id="endDate" onchange="calculateTotal()">
     </label>
     <br><br>
+
+    <div class="price-summary" id="totalPrice">إجمالي الإيجار: -</div>
+    <br>
     <button class="button" onclick="showTerms()">تأكيد الحجز</button>
 
     <div id="termsBox" class="terms-box hidden">
@@ -59,10 +131,14 @@
 
   <script>
     function showTerms() {
-      const start = document.getElementById('startDate').value;
-      const end = document.getElementById('endDate').value;
-      if (!start || !end) {
-        alert('يرجى اختيار تاريخ البداية والنهاية أولاً.');
+      const start = new Date(document.getElementById('startDate').value);
+      const end = new Date(document.getElementById('endDate').value);
+      if (!start || !end || isNaN(start.getTime()) || isNaN(end.getTime())) {
+        alert('يرجى اختيار تواريخ صالحة أولاً.');
+        return;
+      }
+      if (end < start) {
+        alert('تاريخ النهاية يجب أن يكون بعد البداية.');
         return;
       }
       document.getElementById('termsBox').classList.remove('hidden');
@@ -72,6 +148,21 @@
       const checkbox = document.getElementById('agreeBox');
       const submitBtn = document.getElementById('submitBtn');
       submitBtn.disabled = !checkbox.checked;
+    }
+
+    function calculateTotal() {
+      const rate = parseFloat(document.getElementById('dailyRate').textContent);
+      const startDate = new Date(document.getElementById('startDate').value);
+      const endDate = new Date(document.getElementById('endDate').value);
+
+      if (!isNaN(startDate.getTime()) && !isNaN(endDate.getTime()) && endDate >= startDate) {
+        const timeDiff = endDate - startDate;
+        const days = Math.ceil(timeDiff / (1000 * 3600 * 24)) + 1; // +1 to include the start day
+        const total = days * rate;
+        document.getElementById('totalPrice').textContent = `إجمالي الإيجار: ${total} د.ك (${days} يوم)`;
+      } else {
+        document.getElementById('totalPrice').textContent = 'إجمالي الإيجار: -';
+      }
     }
   </script>
 
