@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>تأجير سيارة - Rentthru</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f1c40f;
+    }
+    .car-box {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      position: relative;
+    }
+    .carousel {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      gap: 10px;
+      margin-bottom: 10px;
+      position: relative;
+    }
+    .carousel img {
+      width: 100%;
+      max-width: 300px;
+      height: auto;
+      border-radius: 10px;
+      scroll-snap-align: start;
+    }
+    .discount-badge {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background-color: red;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-weight: bold;
+      z-index: 1;
+    }
+    .status {
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+    .available {
+      color: green;
+    }
+    .unavailable {
+      color: red;
+    }
+    .terms-box {
+      background: #eef;
+      padding: 15px;
+      margin-top: 20px;
+      border-radius: 8px;
+    }
+    .button {
+      background-color: #000;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .button:disabled {
+      background-color: #888;
+      cursor: not-allowed;
+    }
+    .price-summary {
+      font-weight: bold;
+      margin-top: 10px;
+    }
+    .strikethrough {
+      text-decoration: line-through;
+      color: red;
+      margin-left: 10px;
+    }
+    .green-price {
+      color: green;
+    }
+    .popup {
+      display: none;
+      position: fixed;
+      top: 10%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+      z-index: 9999;
+      max-width: 300px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>تأجير سيارة</h2>
+
+  <div class="car-box">
+    <div id="discountBadge" class="discount-badge" style="display: none;">مبروك! خصم ١٠٪؜</div>
+    <div class="carousel" id="carImages">
+      <img src="IMG_7167.jpeg" alt="yaris back">
+      <img src="IMG_7166.jpeg" alt="yaris angle">
+      <img src="IMG_7165.jpeg" alt="yaris side">
+    </div>
+
+    <div class="status available">متوفرة <span style="font-size: 20px;">✔️</span></div>
+
+    <h3>Toyota Yaris 2023</h3>
+    <p>السعر: <span id="dailyRate">10</span> د.ك / اليوم</p>
+    <p>قير أوتوماتيك - 5 ركاب - مكيف - تأمين شامل</p>
+
+    <label>تاريخ البداية:
+      <input type="date" id="startDate" onchange="calculateTotal()">
+    </label>
+    <br><br>
+    <label>تاريخ النهاية:
+      <input type="date" id="endDate" onchange="calculateTotal()">
+    </label>
+    <br><br>
+
+    <div class="price-summary" id="totalPrice">إجمالي الإيجار: -</div>
+    <br>
+    <button class="button" onclick="showTerms()">تأكيد الحجز</button>
+
+    <div id="termsBox" class="terms-box hidden">
+      <h4>الشروط والأحكام (مختصرة):</h4>
+      <ul>
+        <li>المستأجر مسؤول عن السيارة طوال فترة الإيجار.</li>
+        <li>يمنع التدخين أو الأكل داخل السيارة.</li>
+        <li>يجب إعادة السيارة في نفس الحالة التي استلمت بها.</li>
+        <li>أي تأخير في التسليم يترتب عليه رسوم إضافية.</li>
+        <li>يجب أن يكون لدى السائق رخصة قيادة سارية المفعول.</li>
+        <li>يمنع استخدام السيارة في السباقات أو الطرق غير المعبدة.</li>
+        <li>يحق للشركة رفض أو إلغاء الحجز في حال مخالفة الشروط.</li>
+      </ul>
+      <a href="terms-and-conditions.html" target="_blank">عرض الشروط والأحكام الكاملة</a>
+      <br><br>
+      <label>
+        <input type="checkbox" id="agreeBox" onclick="toggleSubmit()"> أوافق على الشروط والأحكام
+      </label>
+      <br><br>
+      <button id="submitBtn" class="button" disabled>إكمال الحجز</button>
+    </div>
+  </div>
+
+  <div id="discountPopup" class="popup"></div>
+
+  <script>
+    function showTerms() {
+      const start = new Date(document.getElementById('startDate').value);
+      const end = new Date(document.getElementById('endDate').value);
+      if (!start || !end || isNaN(start.getTime()) || isNaN(end.getTime())) {
+        alert('يرجى اختيار تواريخ صالحة أولاً.');
+        return;
+      }
+      if (end < start) {
+        alert('تاريخ النهاية يجب أن يكون بعد البداية.');
+        return;
+      }
+      document.getElementById('termsBox').classList.remove('hidden');
+    }
+
+    function toggleSubmit() {
+      const checkbox = document.getElementById('agreeBox');
+      const submitBtn = document.getElementById('submitBtn');
+      submitBtn.disabled = !checkbox.checked;
+    }
+
+    function calculateTotal() {
+      const rate = parseFloat(document.getElementById('dailyRate').textContent);
+      const startDate = new Date(document.getElementById('startDate').value);
+      const endDate = new Date(document.getElementById('endDate').value);
+      const priceDiv = document.getElementById('totalPrice');
+      const badge = document.getElementById('discountBadge');
+      const popup = document.getElementById('discountPopup');
+
+      badge.style.display = 'none';
+      setTimeout(() => { popup.style.display = 'block'; }, 300);
+
+      if (!isNaN(startDate.getTime()) && !isNaN(endDate.getTime()) && endDate >= startDate) {
+        const timeDiff = endDate - startDate;
+        const days = Math.ceil(timeDiff / (1000 * 3600 * 24)) + 1;
+        let total = days * rate;
+        let discount = 0;
+        let message = '';
+
+        if (days >= 30) {
+          discount = 0.15;
+          badge.innerText = "مبروك! خصم ١٥٪؜";
+          badge.style.display = 'block';
+        } else if (days >= 13) {
+          discount = 0.10;
+          badge.innerText = "مبروك! خصم ١٠٪؜";
+          badge.style.display = 'block';
+        } else {
+          const neededFor10 = 13 - days;
+          const neededFor15 = 30 - days;
+          if (days >= 10 && days < 13) {
+            message = `أضف ${neededFor10} يوم واستمتع بخصم ١٠٪؜!`;
+          } else {
+            message = `أضف ${neededFor10} يوم لخصم ١٠٪؜ أو ${neededFor15} لخصم ١٥٪؜`;
+          }
+          popup.innerText = message;
+          popup.style.display = 'block';
+        }
+
+        const discountedTotal = total - (total * discount);
+        priceDiv.innerHTML = discount > 0
+          ? `<span class="strikethrough">${total} د.ك</span> <span class="green-price">${discountedTotal.toFixed(2)} د.ك</span> (${days} يوم)`
+          : `إجمالي الإيجار: ${total} د.ك (${days} يوم)`;
+      } else {
+        priceDiv.textContent = 'إجمالي الإيجار: -';
+      }
+    }
+  </script>
+
+</body>
+</html>
