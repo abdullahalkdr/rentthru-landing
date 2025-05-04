@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>الدفع وإعدادات التوصيل - RentThru</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f1c40f;
+      color: #000;
+      padding: 20px;
+      margin: 0;
+      text-align: center;
+    }
+
+    img.logo {
+      width: 250px;
+      margin-bottom: -85px;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: auto;
+      background-color: #fff;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      text-align: right;
+    }
+
+    label, select, input[type="text"] {
+      display: block;
+      width: 100%;
+      margin-bottom: 15px;
+      font-size: 1rem;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    .section {
+      margin-top: 30px;
+    }
+
+    .extras img {
+      width: 120px;
+      border-radius: 8px;
+      margin: 10px;
+      cursor: pointer;
+      border: 3px solid transparent;
+    }
+
+    .extras img.selected {
+      border-color: #27ae60;
+    }
+
+    .button {
+      margin-top: 20px;
+      background-color: #000;
+      color: white;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    #deliveryDetails {
+      display: none;
+      margin-top: 15px;
+    }
+
+    #totalBox {
+      margin-top: 30px;
+      background: #eef;
+      padding: 15px;
+      border-radius: 10px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <img src="logo.png" class="logo" alt="RentThru Logo">
+  <h2>إعدادات الدفع والتوصيل</h2>
+
+  <div class="container">
+    <label for="paymentMethod">شلون تبي تدفع؟:</label>
+    <select id="paymentMethod">
+      <option value="knet">KNET</option>
+      <option value="visa">Visa / MasterCard</option>
+      <option value="cash">الدفع عند الاستلام</option>
+    </select>
+
+    <label for="wantDelivery">تبي نوصلك السيارة؟</label>
+    <select id="wantDelivery" onchange="toggleDelivery()">
+      <option value="no">لا</option>
+      <option value="yes">نعم</option>
+    </select>
+
+    <div id="deliveryDetails">
+      <label>العنوان الكامل:</label>
+      <input type="text" id="fullAddress" placeholder="اكتب العنوان بالتفصيل">
+
+      <label>اسم المستلم:</label>
+      <input type="text" id="recipientName" placeholder="اكتب اسم الشخص المستلم">
+    </div>
+
+    <div class="section">
+      <h3>خدمات إضافية</h3>
+      <div class="extras" style="text-align: center;">
+        <div>
+          <img src="childseat.jpg" alt="مقعد أطفال" onclick="toggleExtra(this, 'childSeat')"><br>مقعد أطفال - 5 د.ك
+        </div>
+        <div>
+          <img src="fuel.jpg" alt="تعبئة بانزين فل" onclick="toggleExtra(this, 'fuelFull')"><br>تعبئة بانزين - 5 د.ك
+        </div>
+        <div>
+          <img src="wash.jpg" alt="غسيل خارجي عند التوصيل" onclick="toggleExtra(this, 'carWash')"><br>غسيل السيارة - 1 د.ك
+        </div>
+      </div>
+    </div>
+
+    <div id="totalBox">
+      <h4>الإجمالي:</h4>
+      <div id="totalBreakdown">
+        السعر الأساسي: <span id="basePrice">10</span> د.ك<br>
+        خدمات إضافية: <span id="extrasTotal">0</span> د.ك<br>
+        <strong>الإجمالي الكلي: <span id="finalTotal">10</span> د.ك</strong>
+      </div>
+    </div>
+
+    <button class="button" onclick="finalizeBooking()">إتمام الحجز</button>
+  </div>
+
+  <script>
+    const selectedExtras = {};
+
+    function toggleDelivery() {
+      const want = document.getElementById('wantDelivery').value;
+      document.getElementById('deliveryDetails').style.display = want === 'yes' ? 'block' : 'none';
+    }
+
+    function toggleExtra(img, key) {
+      if (selectedExtras[key]) {
+        delete selectedExtras[key];
+        img.classList.remove('selected');
+      } else {
+        selectedExtras[key] = true;
+        img.classList.add('selected');
+      }
+      updateTotal();
+    }
+
+    function updateTotal() {
+      const basePrice = 10;
+      let extrasTotal = 0;
+      if (selectedExtras['childSeat']) extrasTotal += 5;
+      if (selectedExtras['fuelFull']) extrasTotal += 5;
+      if (selectedExtras['carWash']) extrasTotal += 1;
+
+      document.getElementById('basePrice').textContent = basePrice;
+      document.getElementById('extrasTotal').textContent = extrasTotal;
+      document.getElementById('finalTotal').textContent = basePrice + extrasTotal;
+    }
+
+    function finalizeBooking() {
+      const payment = document.getElementById('paymentMethod').value;
+      const delivery = document.getElementById('wantDelivery').value;
+      const address = document.getElementById('fullAddress').value;
+      const name = document.getElementById('recipientName').value;
+
+      if (delivery === 'yes' && (!address || !name)) {
+        alert('يرجى إدخال عنوان التوصيل واسم المستلم.');
+        return;
+      }
+
+      if (payment === 'cash') {
+        alert('تم استلام الطلب! راح يتم تحويلك لصفحة الفاتورة...');
+      } else {
+        alert('تم استلام الطلب! راح يتم توجيهك للدفع...');
+      }
+    }
+
+    window.onload = updateTotal;
+  </script>
+
+</body>
+</html>
