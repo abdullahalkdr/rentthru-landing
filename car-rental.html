@@ -8,7 +8,7 @@
     body {
       font-family: Arial, sans-serif;
       padding: 20px;
-      background: #f1c40f; /* تم تغيير الخلفية */
+      background: #f1c40f;
     }
     .car-box {
       background: #fff;
@@ -23,6 +23,7 @@
       scroll-snap-type: x mandatory;
       gap: 10px;
       margin-bottom: 10px;
+      position: relative;
     }
     .carousel img {
       width: 100%;
@@ -30,6 +31,19 @@
       height: auto;
       border-radius: 10px;
       scroll-snap-align: start;
+      position: relative;
+    }
+    .badge {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: red;
+      color: white;
+      padding: 5px 12px;
+      border-radius: 5px;
+      font-size: 0.9rem;
+      z-index: 1;
+      display: none;
     }
     .status {
       font-weight: bold;
@@ -70,6 +84,14 @@
       font-weight: bold;
       margin-top: 10px;
     }
+    .old-price {
+      color: red;
+      text-decoration: line-through;
+      margin-left: 10px;
+    }
+    .new-price {
+      color: green;
+    }
   </style>
 </head>
 <body>
@@ -77,8 +99,9 @@
   <h2>تأجير سيارة</h2>
 
   <div class="car-box">
-    <!-- صور السيارة -->
+    <!-- صور السيارة مع البادج -->
     <div class="carousel" id="carImages">
+      <div class="badge" id="discountBadge">مبروك! خصم ١٠٪؜</div>
       <img src="IMG_7167.jpeg" alt="yaris back">
       <img src="IMG_7166.jpeg" alt="yaris angle">
       <img src="IMG_7165.jpeg" alt="yaris side">
@@ -151,14 +174,36 @@
       const rate = parseFloat(document.getElementById('dailyRate').textContent);
       const startDate = new Date(document.getElementById('startDate').value);
       const endDate = new Date(document.getElementById('endDate').value);
+      const badge = document.getElementById('discountBadge');
+      const totalDiv = document.getElementById('totalPrice');
 
       if (!isNaN(startDate.getTime()) && !isNaN(endDate.getTime()) && endDate >= startDate) {
         const timeDiff = endDate - startDate;
         const days = Math.ceil(timeDiff / (1000 * 3600 * 24)) + 1;
-        const total = days * rate;
-        document.getElementById('totalPrice').textContent = `إجمالي الإيجار: ${total} د.ك (${days} يوم)`;
+        let total = days * rate;
+        let discount = 0;
+
+        if (days > 29) {
+          discount = 0.15;
+          badge.style.display = "block";
+          badge.textContent = "مبروك! خصم ١٥٪؜";
+        } else if (days > 12) {
+          discount = 0.10;
+          badge.style.display = "block";
+          badge.textContent = "مبروك! خصم ١٠٪؜";
+        } else {
+          badge.style.display = "none";
+        }
+
+        if (discount > 0) {
+          const discountedTotal = total - (total * discount);
+          totalDiv.innerHTML = `<span class="old-price">${total.toFixed(2)} د.ك</span><span class="new-price"> ${discountedTotal.toFixed(2)} د.ك (${days} يوم)</span>`;
+        } else {
+          totalDiv.textContent = `إجمالي الإيجار: ${total} د.ك (${days} يوم)`;
+        }
       } else {
-        document.getElementById('totalPrice').textContent = 'إجمالي الإيجار: -';
+        totalDiv.textContent = 'إجمالي الإيجار: -';
+        badge.style.display = "none";
       }
     }
   </script>
